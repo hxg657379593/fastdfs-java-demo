@@ -29,8 +29,10 @@ public class FastDFSClient {
 	 */
 	static {
 		try {
-			logger.info("=== CONF_FILENAME:" + CONF_FILENAME);
-			ClientGlobal.init(CONF_FILENAME);
+
+			//ClientGlobal.init(CONF_FILENAME);
+			ClientGlobal.initByProperties(CONF_FILENAME);
+			logger.info("=== CONF_FILENAME:" + ClientGlobal.configInfo());
 			TrackerClient trackerClient = new TrackerClient(ClientGlobal.g_tracker_group);
 			TrackerServer trackerServer = trackerClient.getConnection();
 			if (trackerServer == null) {
@@ -90,7 +92,7 @@ public class FastDFSClient {
 	 */
 	public static String uploadFile(InputStream inputStream, String fileName) {
 		try {
-			NameValuePair[] meta_list = null;
+			NameValuePair[] meta_list = new NameValuePair[0];
 			byte[] file_buff = null;
 			if (inputStream != null) {
 				int len = inputStream.available();
