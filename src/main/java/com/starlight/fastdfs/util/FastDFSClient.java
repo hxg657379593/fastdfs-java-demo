@@ -18,15 +18,12 @@ import org.springframework.util.StringUtils;
 /**
  * FastDFS分布式文件系统操作客户端 .
  * @author liuyazhuang
- *
  */
 public class FastDFSClient {
 
-	private static final String CONF_FILENAME = "config/fdfs_client.properties";
+	private static final String CONF_FILENAME = "config/fastdfs-client.properties";
 	private static StorageClient1 storageClient1 = null;
-
 	private static Logger logger = LoggerFactory.getLogger(FastDFSClient.class);
-
 	/**
 	 * 只加载一次.
 	 */
@@ -78,6 +75,38 @@ public class FastDFSClient {
 			if (fis != null){
 				try {
 					fis.close();
+				} catch (IOException e) {
+					logger.error("",e);
+				}
+			}
+		}
+	}
+
+	/**
+	 * 上传文件
+	 * @param inputStream
+	 * @param fileName
+	 * @return
+	 */
+	public static String uploadFile(InputStream inputStream, String fileName) {
+		try {
+			NameValuePair[] meta_list = null;
+			byte[] file_buff = null;
+			if (inputStream != null) {
+				int len = inputStream.available();
+				file_buff = new byte[len];
+				inputStream.read(file_buff);
+			}
+
+			String fileid = storageClient1.upload_file1(file_buff, getFileExt(fileName), meta_list);
+			return fileid;
+		} catch (Exception ex) {
+			logger.error("",ex);
+			return null;
+		}finally{
+			if (inputStream != null){
+				try {
+					inputStream.close();
 				} catch (IOException e) {
 					logger.error("",e);
 				}

@@ -18,8 +18,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Result upload(MultipartFile file) throws Exception {
-        FastDFSClient fastDFSClient = new FastDFSClient();
-        Object fileId = fastDFSClient.uploadFile(file.getBytes());
+        Object fileId = FastDFSClient.uploadFile(file.getInputStream(),file.getOriginalFilename());
         return ResultUtil.getResultSuccess(fileId);
     }
 }
