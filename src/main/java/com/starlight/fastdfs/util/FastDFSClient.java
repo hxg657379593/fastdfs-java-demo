@@ -29,19 +29,11 @@ public class FastDFSClient {
 	 */
 	static {
 		try {
-
-			//ClientGlobal.init(CONF_FILENAME);
 			ClientGlobal.initByProperties(CONF_FILENAME);
-			logger.info("=== CONF_FILENAME:" + ClientGlobal.configInfo());
+			logger.info("=== config:" + ClientGlobal.configInfo());
 			TrackerClient trackerClient = new TrackerClient(ClientGlobal.g_tracker_group);
 			TrackerServer trackerServer = trackerClient.getConnection();
-			if (trackerServer == null) {
-				logger.error("getConnection return null");
-			}
-			StorageServer storageServer = trackerClient.getStoreStorage(trackerServer);
-			if (storageServer == null) {
-				logger.error("getStoreStorage return null");
-			}
+			StorageServer storageServer = null;
 			storageClient1 = new StorageClient1(trackerServer, storageServer);
 		} catch (Exception e) {
 			logger.error("",e);

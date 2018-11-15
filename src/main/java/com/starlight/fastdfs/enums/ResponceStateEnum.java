@@ -8,7 +8,7 @@ package com.starlight.fastdfs.enums;
 public enum ResponceStateEnum {
 	
 	SUCCESS_MSG(200,"成功"),
-	ERROR_MSG(501,"失败"),
+	ERROR_MSG(500,"失败"),
 	;
 	
 	private int code;
